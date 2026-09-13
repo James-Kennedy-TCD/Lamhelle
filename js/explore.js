@@ -1,4 +1,4 @@
-// "Explore" page: a Snapchat Map-style view — dark base map, a warm heat
+// "Explore" page: a Snapchat Map-style view. Dark base map, a warm heat
 // glow layer weighted by each business's heat score, and photo-avatar pins
 // in a glowing ring sized by how hot they're trending. Paired with a
 // What's Hot ranked list below, same as Snap Map pairs its map with

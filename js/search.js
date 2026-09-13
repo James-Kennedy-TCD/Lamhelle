@@ -127,7 +127,7 @@
           renderGrid();
         },
         () => {
-          status.textContent = "Couldn't get your location — check your browser's location permission.";
+          status.textContent = "Couldn't get your location. Check your browser's location permission.";
         },
         { timeout: 10000 }
       );

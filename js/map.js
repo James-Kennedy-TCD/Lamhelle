@@ -26,7 +26,7 @@
     });
   }
 
-  // A friendlier, photo-forward pin for "Illustrated" mode — closer to how
+  // A friendlier, photo-forward pin for "Illustrated" mode, closer to how
   // Snap Map shows people as little avatar circles on the map, rather than
   // a plain colour-coded dot.
   function illustratedMarkerIcon(biz) {

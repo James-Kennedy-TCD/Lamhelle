@@ -140,7 +140,7 @@
       return;
     }
 
-    document.title = `${biz.name} — Lámhelle`;
+    document.title = `${biz.name} | Lámhelle`;
     root.innerHTML = profileHtml(biz);
 
     const favBtn = document.getElementById("favBtn");

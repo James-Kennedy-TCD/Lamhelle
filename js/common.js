@@ -112,7 +112,7 @@ function starsHtml(rating) {
 
 function ratingSummaryHtml(biz) {
   const { avg, count } = averageRating(biz);
-  if (!count) return '<p class="rating-count">No reviews yet — be the first to leave one.</p>';
+  if (!count) return '<p class="rating-count">No reviews yet. Be the first to leave one.</p>';
   return `
     <div class="rating-summary">
       ${starsHtml(avg)}
@@ -272,7 +272,7 @@ function photoTileHtml(biz, variant, photoIndex, width) {
   const photoId = businessPhotoIds(biz)[photoIndex];
 
   const img = photoId
-    ? `<img src="${unsplashUrl(photoId, width)}" alt="${escapeHtml(biz.name)} — ${escapeHtml(biz.category)}" loading="lazy" onerror="handlePhotoError(this)" />`
+    ? `<img src="${unsplashUrl(photoId, width)}" alt="${escapeHtml(biz.name)}, ${escapeHtml(biz.category)}" loading="lazy" onerror="handlePhotoError(this)" />`
     : `<span>${icon}</span>`;
 
   return `<div class="photo-tile photo-${variant}" data-fallback-bg="${fallbackBg}" data-fallback-icon="${icon}" style="${photoId ? "" : `background:${fallbackBg}`}">${img}</div>`;

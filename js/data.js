@@ -32,7 +32,7 @@ const CATEGORY_ICONS = {
 
 // Representative stock photography per category (Unsplash, free to use under
 // the Unsplash License: https://unsplash.com/license). These are stand-ins
-// for real business photography — swap them out once owners upload their own.
+// for real business photography. Swap them out once owners upload their own.
 const PHOTO_LIBRARY = {
   "Cafe": ["1453614512568-c4024d13c247", "1545418314-7ce0b9b53901", "1521017432531-fbd92d768814"],
   "Boutique Clothing": ["1441986300917-64674bd600d8", "1532453288672-3a27e9be9efd", "1546213290-e1b492ab3eee"],
@@ -73,12 +73,12 @@ const REVIEW_DATES = ["5 days ago", "1 week ago", "2 weeks ago", "3 weeks ago", 
 
 const REVIEW_TEMPLATES = {
   "Cafe": [
-    { rating: 5, text: "My go-to spot for a flat white before work — always consistent and the staff remember your order." },
+    { rating: 5, text: "My go-to spot for a flat white before work. Always consistent, and the staff remember your order." },
     { rating: 4, text: "Lovely atmosphere and great pastries, though it does get busy at the weekend." },
     { rating: 5, text: "Best coffee in the area, hands down. The daily bakes are worth the trip alone." },
   ],
   "Boutique Clothing": [
-    { rating: 5, text: "Found the perfect outfit for a wedding here — the staff really know how to style you." },
+    { rating: 5, text: "Found the perfect outfit for a wedding here. The staff really know how to style you." },
     { rating: 4, text: "Great selection of Irish designers, a bit pricey but worth it for special pieces." },
     { rating: 5, text: "Always something unique in stock, never feels like a chain store." },
   ],
@@ -88,14 +88,14 @@ const REVIEW_TEMPLATES = {
     { rating: 4, text: "Gorgeous flowers, just wish they had slightly longer opening hours on Sundays." },
   ],
   "Homeware": [
-    { rating: 5, text: "Such a lovely selection of Irish-made pieces — bought three things I didn't plan to!" },
+    { rating: 5, text: "Such a lovely selection of Irish-made pieces. I bought three things I didn't plan to!" },
     { rating: 4, text: "Great quality homeware, a little pricey but you're paying for craftsmanship." },
-    { rating: 5, text: "My favourite shop for gifts — everything feels considered and well made." },
+    { rating: 5, text: "My favourite shop for gifts. Everything feels considered and well made." },
   ],
   "Gift Shop": [
     { rating: 5, text: "Always find something special here, great for last-minute presents." },
     { rating: 4, text: "Lovely handmade items, though stock can be limited on popular pieces." },
-    { rating: 5, text: "The staff helped me pick the perfect gift — really personal service." },
+    { rating: 5, text: "The staff helped me pick the perfect gift. Really personal service." },
   ],
   "Bakery": [
     { rating: 5, text: "The sourdough is unreal, and the croissants are the best I've had outside of France." },
@@ -105,7 +105,7 @@ const REVIEW_TEMPLATES = {
   "Bookshop": [
     { rating: 5, text: "A proper independent bookshop with staff who actually read and recommend well." },
     { rating: 4, text: "Great Irish-interest section, cosy spot to browse on a rainy day." },
-    { rating: 5, text: "My kids love the storytime mornings — it's become a weekly tradition for us." },
+    { rating: 5, text: "My kids love the storytime mornings. It's become a weekly tradition for us." },
   ],
   "Baby & Kids": [
     { rating: 5, text: "Beautiful baby gifts, ordered a hamper and the presentation was gorgeous." },
@@ -113,14 +113,14 @@ const REVIEW_TEMPLATES = {
     { rating: 4, text: "Great range for newborns, a little more expensive than the high street but worth it." },
   ],
   "Specialist Service": [
-    { rating: 5, text: "Fixed a dress that I thought was beyond saving — brilliant work." },
+    { rating: 5, text: "Fixed a dress that I thought was beyond saving. Brilliant work." },
     { rating: 4, text: "Reliable and fairly priced, though it's worth booking ahead as they get busy." },
     { rating: 5, text: "Excellent attention to detail, will definitely be back for future alterations." },
   ],
   "Deli": [
     { rating: 5, text: "Best cheese counter in South Dublin, the staff always have great recommendations." },
     { rating: 4, text: "Great picnic hampers, slightly pricey but the quality is obvious." },
-    { rating: 5, text: "My weekly stop for local produce — everything is always fresh." },
+    { rating: 5, text: "My weekly stop for local produce. Everything is always fresh." },
   ],
 };
 
