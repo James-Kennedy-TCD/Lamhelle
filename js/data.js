@@ -16,7 +16,7 @@ const CATEGORIES = [
   "Deli",
 ];
 
-// Emoji stand-ins for photos until real business photos are added.
+// Emoji fallback shown if a photo fails to load (offline, broken link, etc.).
 const CATEGORY_ICONS = {
   "Cafe": "☕",
   "Boutique Clothing": "👗",
@@ -28,6 +28,22 @@ const CATEGORY_ICONS = {
   "Baby & Kids": "🍼",
   "Specialist Service": "🧵",
   "Deli": "🧀",
+};
+
+// Representative stock photography per category (Unsplash, free to use under
+// the Unsplash License: https://unsplash.com/license). These are stand-ins
+// for real business photography — swap them out once owners upload their own.
+const PHOTO_LIBRARY = {
+  "Cafe": ["1453614512568-c4024d13c247", "1545418314-7ce0b9b53901", "1521017432531-fbd92d768814"],
+  "Boutique Clothing": ["1441986300917-64674bd600d8", "1532453288672-3a27e9be9efd", "1546213290-e1b492ab3eee"],
+  "Florist": ["1589244159943-460088ed5c92", "1531058240690-006c446962d8", "1487070183336-b863922373d4"],
+  "Homeware": ["1740760540616-a3dd85e51352", "1740760540552-11d27a7e8df7", "1771033834141-023d630b3965"],
+  "Gift Shop": ["1515711660811-48832a4c6f69", "1603912699214-92627f304eb6", "1598305762558-328f599df683"],
+  "Bakery": ["1568254183919-78a4f43a2877", "1587241321921-91a834d6d191", "1583338917451-face2751d8d5"],
+  "Bookshop": ["1566131807516-e3b3cd1a89d1", "1700906010457-c7a565935b81", "1643250048998-7ffa83ae2c63"],
+  "Baby & Kids": ["1560506840-ec148e82a604", "1622218286192-95f6a20083c7", "1560859259-fcf2b952aed8"],
+  "Specialist Service": ["1630272777562-17735957d8c0", "1623578059518-bbdb071eab81", "1584184924103-e310d9dc82fc"],
+  "Deli": ["1615828700429-12144f98604f", "1610057052613-bb574bb4e4c9", "1511018953270-acf4f613483a"],
 };
 
 // Default opening hours by category, [mon, tue, wed, thu, fri, sat, sun].

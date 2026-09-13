@@ -92,20 +92,52 @@ function hoursTableHtml(biz) {
   `;
 }
 
-// Placeholder "photo" tile (gradient + category emoji) until real photos
-// are uploaded per business.
-function photoTileHtml(biz, variant) {
+// Rotates each business's category photo pool so businesses sharing a
+// category don't all show the exact same triplet of photos.
+function businessPhotoIds(biz) {
+  const pool = PHOTO_LIBRARY[biz.category] || [];
+  if (!pool.length) return [];
+  let seed = 0;
+  for (const ch of biz.id) seed += ch.charCodeAt(0);
+  const rot = seed % pool.length;
+  return pool.slice(rot).concat(pool.slice(0, rot));
+}
+
+function unsplashUrl(photoId, width) {
+  return `https://images.unsplash.com/photo-${photoId}?w=${width}&q=70&auto=format&fit=crop`;
+}
+
+// If a photo fails to load (offline, link changed, etc.), fall back to a
+// gradient tile with a category emoji instead of a broken image icon.
+function handlePhotoError(img) {
+  const tile = img.closest(".photo-tile");
+  if (!tile) return;
+  tile.style.background = tile.dataset.fallbackBg;
+  img.remove();
+  const span = document.createElement("span");
+  span.textContent = tile.dataset.fallbackIcon;
+  tile.appendChild(span);
+}
+
+function photoTileHtml(biz, variant, photoIndex, width) {
   const icon = CATEGORY_ICONS[biz.category] || "🛍️";
   const color = categoryColor(biz.category);
-  return `<div class="photo-tile photo-${variant}" style="background: linear-gradient(155deg, ${color}, ${color}99);"><span>${icon}</span></div>`;
+  const fallbackBg = `linear-gradient(155deg, ${color}, ${color}99)`;
+  const photoId = businessPhotoIds(biz)[photoIndex];
+
+  const img = photoId
+    ? `<img src="${unsplashUrl(photoId, width)}" alt="${escapeHtml(biz.name)} — ${escapeHtml(biz.category)}" loading="lazy" onerror="handlePhotoError(this)" />`
+    : `<span>${icon}</span>`;
+
+  return `<div class="photo-tile photo-${variant}" data-fallback-bg="${fallbackBg}" data-fallback-icon="${icon}" style="${photoId ? "" : `background:${fallbackBg}`}">${img}</div>`;
 }
 
 function photoGalleryHtml(biz) {
   return `
     <div class="photo-gallery">
-      ${photoTileHtml(biz, "main")}
-      ${photoTileHtml(biz, "thumb")}
-      ${photoTileHtml(biz, "thumb")}
+      ${photoTileHtml(biz, "main", 0, 800)}
+      ${photoTileHtml(biz, "thumb", 1, 400)}
+      ${photoTileHtml(biz, "thumb", 2, 400)}
     </div>
   `;
 }
@@ -114,7 +146,7 @@ function bizCardHtml(biz) {
   return `
     <article class="biz-card" data-id="${biz.id}">
       <a class="biz-card-photo" href="business.html?id=${biz.id}">
-        ${photoTileHtml(biz, "card")}
+        ${photoTileHtml(biz, "card", 0, 500)}
         ${biz.featured ? '<span class="badge featured card-badge">Recommended</span>' : ""}
       </a>
       <div class="biz-card-body">

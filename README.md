@@ -9,6 +9,8 @@ This is an early prototype focused on two views:
   businesses by category or keyword, shown on an interactive map.
 - **Recommended** (`recommended.html`) — a curated, filterable grid of
   picks for the week.
+- **Business profile** (`business.html?id=...`) — photos, opening hours,
+  tags, and similar businesses for one listing.
 
 ## Running locally
 
@@ -29,10 +31,17 @@ Sandymount, Blackrock, Dun Laoghaire, Dalkey, etc.) so the map and
 recommendations work end-to-end. Replace this file with a real feed (API or
 CMS) before launch.
 
+Photos are stock images from [Unsplash](https://unsplash.com) (free to use
+under the [Unsplash License](https://unsplash.com/license)), chosen per
+category as stand-ins — `PHOTO_LIBRARY` in `js/data.js` maps each category to
+a few photo IDs, and `businessPhotoIds()` in `js/common.js` rotates through
+them so businesses in the same category don't show identical photo sets.
+Replace these with each owner's real photos before launch.
+
 ## Next steps (from the original pitch)
 
 - Broaden coverage beyond South Dublin
-- Business profiles with photos, hours, and story/heritage
+- Let business owners upload their own real photos
 - Customer reviews and personalised recommendations
 - Business-side dashboard (freemium: free profile, paid promotion/insights)
 - Loyalty rewards, click-and-collect, live stock availability
