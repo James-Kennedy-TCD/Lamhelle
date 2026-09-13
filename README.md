@@ -1,5 +1,7 @@
 # Lamhelle (name under review)
 
+**Live demo:** https://james-kennedy-tcd.github.io/Lamhelle/
+
 A discovery platform that makes it as easy to find and support independent
 Irish businesses as it is to shop from major online retailers.
 
