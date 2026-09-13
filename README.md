@@ -5,10 +5,13 @@ Irish businesses as it is to shop from major online retailers.
 
 This is an early prototype focused on two views:
 
-- **Map** (`index.html`) — search and filter South Dublin independent
-  businesses by category or keyword, shown on an interactive map.
-- **Recommended** (`recommended.html`) — a curated, filterable grid of
-  picks for the week.
+- **Map** (`index.html`) — filter South Dublin independent businesses by
+  category, shown on an interactive map. The search bar takes you to the
+  search results page.
+- **Search** (`search.html?q=...&category=...`) — the search bar on every
+  page lands here: keyword + category results, shareable via the URL.
+- **Recommended** (`recommended.html`) — a curated, category-filterable
+  grid of picks for the week.
 - **Business profile** (`business.html?id=...`) — photos, opening hours,
   tags, and similar businesses for one listing.
 

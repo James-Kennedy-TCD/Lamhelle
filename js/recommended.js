@@ -2,7 +2,6 @@
 
 (function () {
   let activeCategory = "All";
-  let activeQuery = "";
 
   const ranked = rankRecommended(BUSINESSES);
 
@@ -28,11 +27,11 @@
 
   function renderGrid() {
     const grid = document.getElementById("cardGrid");
-    const visible = ranked.filter((biz) => matchesBusiness(biz, activeQuery, activeCategory));
+    const visible = ranked.filter((biz) => matchesBusiness(biz, "", activeCategory));
 
     grid.innerHTML = visible.length
       ? visible.map(bizCardHtml).join("")
-      : '<div class="empty-state">No businesses match that search yet.</div>';
+      : '<div class="empty-state">No businesses match that category yet.</div>';
 
     document.getElementById("resultCount").textContent =
       `${visible.length} of ${BUSINESSES.length} businesses`;
@@ -42,14 +41,14 @@
     const input = document.getElementById("searchInput");
     const btn = document.getElementById("searchBtn");
 
-    function runSearch() {
-      activeQuery = input.value;
-      renderGrid();
+    function goToSearch() {
+      const q = input.value.trim();
+      window.location.href = q ? `search.html?q=${encodeURIComponent(q)}` : "search.html";
     }
 
-    btn.addEventListener("click", runSearch);
+    btn.addEventListener("click", goToSearch);
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") runSearch();
+      if (e.key === "Enter") goToSearch();
     });
   }
 

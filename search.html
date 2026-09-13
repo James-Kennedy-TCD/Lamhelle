@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lamhelle &mdash; Recommended for You</title>
+<title>Lamhelle &mdash; Search</title>
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -13,7 +13,7 @@
     <a class="brand" href="index.html">Lamhelle<span class="brand-dot">.</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Map</a></li>
-      <li><a href="recommended.html" class="active">Recommended</a></li>
+      <li><a href="recommended.html">Recommended</a></li>
     </ul>
     <a class="btn-pill" href="mailto:hello@lamhelle.ie">List your business</a>
     <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
@@ -22,8 +22,8 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <h1>Recommended for you</h1>
-    <p>A rotating selection of independent South Dublin businesses worth a visit this week &mdash; picked across cafes, gifts, fashion and more.</p>
+    <h1 id="searchHeading">Search</h1>
+    <p>Search across every independent Irish business on Lamhelle by name, category, area or product.</p>
 
     <div class="search-bar">
       <input id="searchInput" type="text" placeholder="Search for a shop, category or product..." />
@@ -38,7 +38,7 @@
 
 <main class="section">
   <div class="section-heading">
-    <h2>Today's picks</h2>
+    <h2>Results</h2>
     <p id="resultCount"></p>
   </div>
 
@@ -51,6 +51,6 @@
 
 <script src="js/data.js"></script>
 <script src="js/common.js"></script>
-<script src="js/recommended.js"></script>
+<script src="js/search.js"></script>
 </body>
 </html>

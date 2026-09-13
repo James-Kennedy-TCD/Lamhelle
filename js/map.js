@@ -13,7 +13,6 @@
 
   const markerById = new Map();
   let activeCategory = "All";
-  let activeQuery = "";
 
   function markerIcon(category) {
     const color = categoryColor(category);
@@ -72,7 +71,7 @@
     let visibleCount = 0;
     BUSINESSES.forEach((biz) => {
       const marker = markerById.get(biz.id);
-      const visible = matchesBusiness(biz, activeQuery, activeCategory);
+      const visible = matchesBusiness(biz, "", activeCategory);
       if (visible) {
         if (!map.hasLayer(marker)) marker.addTo(map);
         visibleCount++;
@@ -89,14 +88,14 @@
     const input = document.getElementById("searchInput");
     const btn = document.getElementById("searchBtn");
 
-    function runSearch() {
-      activeQuery = input.value;
-      applyFilters();
+    function goToSearch() {
+      const q = input.value.trim();
+      window.location.href = q ? `search.html?q=${encodeURIComponent(q)}` : "search.html";
     }
 
-    btn.addEventListener("click", runSearch);
+    btn.addEventListener("click", goToSearch);
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") runSearch();
+      if (e.key === "Enter") goToSearch();
     });
   }
 
