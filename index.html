@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lamhelle &mdash; Discover Irish Independent Businesses</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">Lamhelle<span class="brand-dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Map</a></li>
+      <li><a href="recommended.html">Recommended</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Find independent Irish businesses near you</h1>
+    <p>Search by what you need &mdash; a gift, a coffee, a florist &mdash; and discover local South Dublin businesses on the map in seconds.</p>
+
+    <div class="search-bar">
+      <input id="searchInput" type="text" placeholder="Search for a shop, category or product..." />
+      <button id="searchBtn">Search</button>
+    </div>
+
+    <div class="chip-row" id="categoryChips">
+      <button class="chip active" data-category="All">All</button>
+    </div>
+  </div>
+</section>
+
+<main class="section">
+  <div class="section-heading">
+    <h2>Shops near South Dublin</h2>
+    <p id="resultCount"></p>
+  </div>
+
+  <div id="map"></div>
+  <div class="map-legend" id="mapLegend"></div>
+</main>
+
+<footer class="site-footer">
+  <p><strong>Lamhelle</strong> &mdash; making it the easiest choice to shop Irish and shop local.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/map.js"></script>
+</body>
+</html>
