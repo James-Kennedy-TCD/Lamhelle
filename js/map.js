@@ -13,8 +13,9 @@
 
   const markerById = new Map();
   let activeCategory = "All";
+  let mapStyle = "classic";
 
-  function markerIcon(category) {
+  function classicMarkerIcon(category) {
     const color = categoryColor(category);
     return L.divIcon({
       className: "",
@@ -25,8 +26,32 @@
     });
   }
 
+  // A friendlier, photo-forward pin for "Illustrated" mode — closer to how
+  // Snap Map shows people as little avatar circles on the map, rather than
+  // a plain colour-coded dot.
+  function illustratedMarkerIcon(biz) {
+    const color = categoryColor(biz.category);
+    const photoId = businessPhotoIds(biz)[0];
+    const size = 34;
+    const inner = photoId
+      ? `<img src="${unsplashUrl(photoId, 100)}" alt="${escapeHtml(biz.name)}" />`
+      : `<span>${CATEGORY_ICONS[biz.category] || "🛍️"}</span>`;
+
+    return L.divIcon({
+      className: "",
+      html: `<div class="illustrated-pin" style="width:${size}px;height:${size}px;border-color:${color};">${inner}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      popupAnchor: [0, -size / 2],
+    });
+  }
+
+  function markerIconFor(biz) {
+    return mapStyle === "illustrated" ? illustratedMarkerIcon(biz) : classicMarkerIcon(biz.category);
+  }
+
   BUSINESSES.forEach((biz) => {
-    const marker = L.marker([biz.lat, biz.lng], { icon: markerIcon(biz.category) });
+    const marker = L.marker([biz.lat, biz.lng], { icon: markerIconFor(biz) });
     marker.bindPopup(`
       <h3>${escapeHtml(biz.name)}</h3>
       <p class="pop-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)}</p>
@@ -99,6 +124,26 @@
     });
   }
 
+  function setupMapStyleToggle() {
+    const container = document.getElementById("mapStyleToggle");
+    const mapEl = document.getElementById("map");
+
+    container.addEventListener("click", (e) => {
+      const btn = e.target.closest(".map-style-btn");
+      if (!btn) return;
+
+      container.querySelectorAll(".map-style-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      mapStyle = btn.dataset.style;
+      mapEl.classList.toggle("illustrated", mapStyle === "illustrated");
+
+      BUSINESSES.forEach((biz) => {
+        markerById.get(biz.id).setIcon(markerIconFor(biz));
+      });
+    });
+  }
+
   function focusFromQueryString() {
     const params = new URLSearchParams(window.location.search);
     const focusId = params.get("focus");
@@ -113,6 +158,7 @@
   renderChips();
   renderLegend();
   setupSearch();
+  setupMapStyleToggle();
   applyFilters();
   focusFromQueryString();
 })();

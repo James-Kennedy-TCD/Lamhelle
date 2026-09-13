@@ -6,6 +6,10 @@
 <title>Lámhelle &mdash; Discover Irish Independent Businesses</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -50,6 +54,11 @@
   <div class="section-heading">
     <h2>Shops near South Dublin</h2>
     <p id="resultCount"></p>
+  </div>
+
+  <div class="map-style-row" id="mapStyleToggle">
+    <button class="map-style-btn active" data-style="classic">Classic</button>
+    <button class="map-style-btn" data-style="illustrated">Illustrated</button>
   </div>
 
   <div id="map"></div>
