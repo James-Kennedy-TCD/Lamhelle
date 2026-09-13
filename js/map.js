@@ -32,7 +32,10 @@
       <h3>${escapeHtml(biz.name)}</h3>
       <p class="pop-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)}</p>
       <p>${escapeHtml(biz.blurb)}</p>
-      <a class="pop-link" href="${directionsUrl(biz)}" target="_blank" rel="noopener">Get directions &rarr;</a>
+      <div class="pop-links">
+        <a class="pop-link" href="business.html?id=${biz.id}">View profile &rarr;</a>
+        <a class="pop-link" href="${directionsUrl(biz)}" target="_blank" rel="noopener">Directions &rarr;</a>
+      </div>
     `);
     marker.addTo(map);
     markerById.set(biz.id, marker);

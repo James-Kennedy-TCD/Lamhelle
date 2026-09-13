@@ -45,21 +45,93 @@ function directionsUrl(biz) {
   return `https://www.openstreetmap.org/?mlat=${biz.lat}&mlon=${biz.lng}#map=17/${biz.lat}/${biz.lng}`;
 }
 
+const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+// JS getDay() is 0=Sun..6=Sat; this converts to 0=Mon..6=Sun to match DAY_LABELS.
+function todayIndex() {
+  return (new Date().getDay() + 6) % 7;
+}
+
+function getHours(biz) {
+  return biz.hours || HOURS_PRESETS[biz.category] || Array(7).fill("Closed");
+}
+
+function isOpenNow(biz) {
+  const today = getHours(biz)[todayIndex()];
+  if (!today || today === "Closed") return false;
+  const [openStr, closeStr] = today.split("–");
+  if (!closeStr) return false;
+  const toMinutes = (t) => {
+    const [h, m] = t.split(":").map(Number);
+    return h * 60 + (m || 0);
+  };
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  return nowMinutes >= toMinutes(openStr) && nowMinutes <= toMinutes(closeStr);
+}
+
+function openStatusHtml(biz) {
+  return isOpenNow(biz)
+    ? '<span class="status-pill open">Open now</span>'
+    : '<span class="status-pill closed">Closed now</span>';
+}
+
+function hoursTableHtml(biz) {
+  const hours = getHours(biz);
+  const todayIdx = todayIndex();
+  return `
+    <table class="hours-table">
+      ${DAY_LABELS.map(
+        (day, i) => `
+        <tr class="${i === todayIdx ? "today" : ""}">
+          <td>${day}</td>
+          <td>${escapeHtml(hours[i])}</td>
+        </tr>`
+      ).join("")}
+    </table>
+  `;
+}
+
+// Placeholder "photo" tile (gradient + category emoji) until real photos
+// are uploaded per business.
+function photoTileHtml(biz, variant) {
+  const icon = CATEGORY_ICONS[biz.category] || "🛍️";
+  const color = categoryColor(biz.category);
+  return `<div class="photo-tile photo-${variant}" style="background: linear-gradient(155deg, ${color}, ${color}99);"><span>${icon}</span></div>`;
+}
+
+function photoGalleryHtml(biz) {
+  return `
+    <div class="photo-gallery">
+      ${photoTileHtml(biz, "main")}
+      ${photoTileHtml(biz, "thumb")}
+      ${photoTileHtml(biz, "thumb")}
+    </div>
+  `;
+}
+
 function bizCardHtml(biz) {
   return `
     <article class="biz-card" data-id="${biz.id}">
-      <div class="biz-top">
-        <h3>${escapeHtml(biz.name)}</h3>
-        ${biz.featured ? '<span class="badge featured">Recommended</span>' : `<span class="badge">${priceLabel(biz.priceLevel)}</span>`}
-      </div>
-      <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)}</p>
-      <p class="biz-blurb">${escapeHtml(biz.blurb)}</p>
-      <div class="biz-tags">
-        ${(biz.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
-      </div>
-      <div class="biz-actions">
-        <a class="btn-link" href="index.html?focus=${biz.id}">View on map</a>
-        <a class="btn-link" href="${directionsUrl(biz)}" target="_blank" rel="noopener">Directions</a>
+      <a class="biz-card-photo" href="business.html?id=${biz.id}">
+        ${photoTileHtml(biz, "card")}
+        ${biz.featured ? '<span class="badge featured card-badge">Recommended</span>' : ""}
+      </a>
+      <div class="biz-card-body">
+        <div class="biz-top">
+          <h3><a href="business.html?id=${biz.id}">${escapeHtml(biz.name)}</a></h3>
+          <span class="badge">${priceLabel(biz.priceLevel)}</span>
+        </div>
+        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)}</p>
+        <p class="biz-blurb">${escapeHtml(biz.blurb)}</p>
+        <div class="biz-tags">
+          ${(biz.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
+        </div>
+        <div class="biz-actions">
+          <a class="btn-link" href="business.html?id=${biz.id}">View profile</a>
+          <a class="btn-link" href="index.html?focus=${biz.id}">Map</a>
+          <a class="btn-link" href="${directionsUrl(biz)}" target="_blank" rel="noopener">Directions</a>
+        </div>
       </div>
     </article>
   `;
