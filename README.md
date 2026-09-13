@@ -13,7 +13,7 @@ This is an early prototype focused on two views:
 - **Recommended** (`recommended.html`) — a curated, category-filterable
   grid of picks for the week.
 - **Business profile** (`business.html?id=...`) — photos, opening hours,
-  tags, similar businesses, and a Save button.
+  tags, similar businesses, a Save button, and reviews (see below).
 - **Favourites** (`favourites.html`) — businesses saved via the Save button,
   stored in this browser's localStorage (per-device, not synced).
 - **List your business** (`signup.html`) — a business owner signup form
@@ -47,11 +47,19 @@ a few photo IDs, and `businessPhotoIds()` in `js/common.js` rotates through
 them so businesses in the same category don't show identical photo sets.
 Replace these with each owner's real photos before launch.
 
+Each business is also seeded with two sample reviews matched to its category
+(`REVIEW_TEMPLATES` in `js/data.js`, picked deterministically per business in
+`seedReviewsFor()` in `js/common.js`) so the reviews section and average
+rating aren't empty. Reviews submitted through the "Write a review" form on
+a business profile are stored in localStorage (`lamhelle_reviews`) and
+layered on top of the seeded ones — again, per-device until there's a
+backend.
+
 ## Next steps (from the original pitch)
 
 - Broaden coverage beyond South Dublin
 - Let business owners upload their own real photos
-- Customer reviews and personalised recommendations
-- A real backend for signups, and a business-side dashboard (freemium:
-  free profile, paid promotion/insights)
+- Personalised recommendations
+- A real backend for signups and reviews, and a business-side dashboard
+  (freemium: free profile, paid promotion/insights)
 - Loyalty rewards, click-and-collect, live stock availability

@@ -61,6 +61,69 @@ const HOURS_PRESETS = {
   "Deli": ["8:00–19:00", "8:00–19:00", "8:00–19:00", "8:00–19:00", "8:00–19:00", "8:00–18:00", "9:00–17:00"],
 };
 
+// Sample reviewer names and per-category review templates used to seed each
+// business with a couple of realistic-looking reviews (see seedReviewsFor()
+// in common.js). Real reviews would replace this once there's a backend.
+const REVIEWER_NAMES = [
+  "Aoife", "Cian", "Niamh", "Sean", "Roisin", "Cathal", "Sinead", "Eoin",
+  "Grainne", "Declan", "Aisling", "Fionn", "Orla", "Padraig", "Saoirse", "Conor",
+];
+
+const REVIEW_DATES = ["5 days ago", "1 week ago", "2 weeks ago", "3 weeks ago", "1 month ago", "2 months ago"];
+
+const REVIEW_TEMPLATES = {
+  "Cafe": [
+    { rating: 5, text: "My go-to spot for a flat white before work — always consistent and the staff remember your order." },
+    { rating: 4, text: "Lovely atmosphere and great pastries, though it does get busy at the weekend." },
+    { rating: 5, text: "Best coffee in the area, hands down. The daily bakes are worth the trip alone." },
+  ],
+  "Boutique Clothing": [
+    { rating: 5, text: "Found the perfect outfit for a wedding here — the staff really know how to style you." },
+    { rating: 4, text: "Great selection of Irish designers, a bit pricey but worth it for special pieces." },
+    { rating: 5, text: "Always something unique in stock, never feels like a chain store." },
+  ],
+  "Florist": [
+    { rating: 5, text: "Ordered a bouquet for my mother's birthday and it was even better than the photos." },
+    { rating: 5, text: "Beautiful, seasonal arrangements every time. My go-to for last-minute gifts." },
+    { rating: 4, text: "Gorgeous flowers, just wish they had slightly longer opening hours on Sundays." },
+  ],
+  "Homeware": [
+    { rating: 5, text: "Such a lovely selection of Irish-made pieces — bought three things I didn't plan to!" },
+    { rating: 4, text: "Great quality homeware, a little pricey but you're paying for craftsmanship." },
+    { rating: 5, text: "My favourite shop for gifts — everything feels considered and well made." },
+  ],
+  "Gift Shop": [
+    { rating: 5, text: "Always find something special here, great for last-minute presents." },
+    { rating: 4, text: "Lovely handmade items, though stock can be limited on popular pieces." },
+    { rating: 5, text: "The staff helped me pick the perfect gift — really personal service." },
+  ],
+  "Bakery": [
+    { rating: 5, text: "The sourdough is unreal, and the croissants are the best I've had outside of France." },
+    { rating: 5, text: "Ordered a celebration cake and it was both stunning and delicious." },
+    { rating: 4, text: "Great bakes, get there early as the good stuff sells out fast." },
+  ],
+  "Bookshop": [
+    { rating: 5, text: "A proper independent bookshop with staff who actually read and recommend well." },
+    { rating: 4, text: "Great Irish-interest section, cosy spot to browse on a rainy day." },
+    { rating: 5, text: "My kids love the storytime mornings — it's become a weekly tradition for us." },
+  ],
+  "Baby & Kids": [
+    { rating: 5, text: "Beautiful baby gifts, ordered a hamper and the presentation was gorgeous." },
+    { rating: 5, text: "Lovely Irish-made knitwear, sized generously and washes really well." },
+    { rating: 4, text: "Great range for newborns, a little more expensive than the high street but worth it." },
+  ],
+  "Specialist Service": [
+    { rating: 5, text: "Fixed a dress that I thought was beyond saving — brilliant work." },
+    { rating: 4, text: "Reliable and fairly priced, though it's worth booking ahead as they get busy." },
+    { rating: 5, text: "Excellent attention to detail, will definitely be back for future alterations." },
+  ],
+  "Deli": [
+    { rating: 5, text: "Best cheese counter in South Dublin, the staff always have great recommendations." },
+    { rating: 4, text: "Great picnic hampers, slightly pricey but the quality is obvious." },
+    { rating: 5, text: "My weekly stop for local produce — everything is always fresh." },
+  ],
+};
+
 const BUSINESSES = [
   {
     id: "b1",

@@ -44,6 +44,103 @@ function toggleFavourite(id) {
   return favs.has(id);
 }
 
+const REVIEWS_KEY = "lamhelle_reviews";
+
+function getStoredReviews(bizId) {
+  try {
+    const all = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+    return all[bizId] || [];
+  } catch {
+    return [];
+  }
+}
+
+function addReview(bizId, review) {
+  let all = {};
+  try {
+    all = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+  } catch {
+    all = {};
+  }
+  all[bizId] = [review, ...(all[bizId] || [])];
+  try {
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(all));
+  } catch {
+    // localStorage unavailable - the review just won't persist across visits.
+  }
+}
+
+// Deterministically picks 2 category-appropriate sample reviews per business
+// (same technique as businessPhotoIds) so profiles don't start out empty.
+function seedReviewsFor(biz) {
+  const templates = REVIEW_TEMPLATES[biz.category] || [];
+  if (!templates.length) return [];
+
+  let seed = 0;
+  for (const ch of biz.id) seed += ch.charCodeAt(0);
+
+  const first = seed % templates.length;
+  const second = (first + 1) % templates.length;
+
+  return [first, second].map((templateIdx, i) => ({
+    name: REVIEWER_NAMES[(seed + i * 5) % REVIEWER_NAMES.length],
+    rating: templates[templateIdx].rating,
+    text: templates[templateIdx].text,
+    date: REVIEW_DATES[(seed + i * 3) % REVIEW_DATES.length],
+  }));
+}
+
+function allReviews(biz) {
+  return [...getStoredReviews(biz.id), ...seedReviewsFor(biz)];
+}
+
+function averageRating(biz) {
+  const reviews = allReviews(biz);
+  if (!reviews.length) return { avg: 0, count: 0 };
+  const total = reviews.reduce((sum, r) => sum + r.rating, 0);
+  return { avg: Math.round((total / reviews.length) * 10) / 10, count: reviews.length };
+}
+
+function starsHtml(rating) {
+  const rounded = Math.round(rating);
+  let stars = "";
+  for (let i = 1; i <= 5; i++) {
+    stars += `<span class="${i <= rounded ? "" : "star-empty"}">&#9733;</span>`;
+  }
+  return `<span class="stars">${stars}</span>`;
+}
+
+function ratingSummaryHtml(biz) {
+  const { avg, count } = averageRating(biz);
+  if (!count) return '<p class="rating-count">No reviews yet — be the first to leave one.</p>';
+  return `
+    <div class="rating-summary">
+      ${starsHtml(avg)}
+      <strong>${avg}</strong>
+      <span class="rating-count">(${count} review${count === 1 ? "" : "s"})</span>
+    </div>
+  `;
+}
+
+function cardRatingHtml(biz) {
+  const { avg, count } = averageRating(biz);
+  if (!count) return "No reviews yet";
+  return `<span class="rating-inline">&#9733; ${avg}</span> (${count})`;
+}
+
+function reviewCardHtml(review) {
+  return `
+    <div class="review-card">
+      <div class="review-top">
+        <span class="review-name">${escapeHtml(review.name)}</span>
+        <span class="review-date">${escapeHtml(review.date)}</span>
+      </div>
+      ${starsHtml(review.rating)}
+      <p>${escapeHtml(review.text)}</p>
+    </div>
+  `;
+}
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -182,7 +279,7 @@ function bizCardHtml(biz, opts) {
           <h3><a href="business.html?id=${biz.id}">${escapeHtml(biz.name)}</a></h3>
           <span class="badge">${priceLabel(biz.priceLevel)}</span>
         </div>
-        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)}</p>
+        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)} &middot; ${cardRatingHtml(biz)}</p>
         <p class="biz-blurb">${escapeHtml(biz.blurb)}</p>
         <div class="biz-tags">
           ${(biz.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}

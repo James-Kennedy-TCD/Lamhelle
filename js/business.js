@@ -11,6 +11,62 @@
     `;
   }
 
+  function reviewsSectionInnerHtml(biz) {
+    const reviews = allReviews(biz);
+    return `
+      ${ratingSummaryHtml(biz)}
+      ${reviews.length ? `<div class="review-list">${reviews.map(reviewCardHtml).join("")}</div>` : ""}
+
+      <div class="review-form-wrap">
+        <h3>Write a review</h3>
+        <form id="reviewForm" novalidate>
+          <div class="form-row">
+            <label for="reviewerName">Your name (optional)</label>
+            <input id="reviewerName" name="reviewerName" type="text" placeholder="e.g. Aoife" />
+          </div>
+          <div class="form-row">
+            <label for="rating">Rating *</label>
+            <select id="rating" name="rating" required>
+              <option value="" disabled selected>Choose a rating</option>
+              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; Excellent</option>
+              <option value="4">&#9733;&#9733;&#9733;&#9733; Good</option>
+              <option value="3">&#9733;&#9733;&#9733; Average</option>
+              <option value="2">&#9733;&#9733; Poor</option>
+              <option value="1">&#9733; Terrible</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="comment">Your review *</label>
+            <textarea id="comment" name="comment" required rows="3" maxlength="300" placeholder="What was your experience like?"></textarea>
+          </div>
+          <p class="form-error" id="reviewError" hidden>Please choose a rating and add a review.</p>
+          <button class="btn-pill" type="submit">Post review</button>
+        </form>
+      </div>
+    `;
+  }
+
+  function renderReviewsSection(biz) {
+    const container = document.getElementById("reviewsSection");
+    container.innerHTML = reviewsSectionInnerHtml(biz);
+
+    const form = document.getElementById("reviewForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = form.elements.reviewerName.value.trim() || "Anonymous";
+      const rating = Number(form.elements.rating.value);
+      const text = form.elements.comment.value.trim();
+
+      if (!rating || !text) {
+        document.getElementById("reviewError").hidden = false;
+        return;
+      }
+
+      addReview(biz.id, { name, rating, text, date: "Just now" });
+      renderReviewsSection(biz);
+    });
+  }
+
   function similarBusinessesHtml(biz) {
     const similar = BUSINESSES.filter((b) => b.id !== biz.id && b.category === biz.category).slice(0, 3);
     if (!similar.length) return "";
@@ -44,6 +100,8 @@
         <button class="btn-pill outline" id="favBtn">${favourited ? "&#9829; Saved" : "&#9825; Save"}</button>
       </div>
 
+      ${ratingSummaryHtml(biz)}
+
       <p class="biz-blurb profile-about">${escapeHtml(biz.blurb)}</p>
 
       <div class="biz-tags">
@@ -61,6 +119,11 @@
           ${hoursTableHtml(biz)}
         </div>
       </div>
+
+      <div class="section-heading" style="margin-top:2rem;">
+        <h2>Reviews</h2>
+      </div>
+      <div id="reviewsSection"></div>
 
       ${similarBusinessesHtml(biz)}
     `;
@@ -85,6 +148,8 @@
       const nowFavourited = toggleFavourite(biz.id);
       favBtn.innerHTML = nowFavourited ? "&#9829; Saved" : "&#9825; Save";
     });
+
+    renderReviewsSection(biz);
   }
 
   render();
