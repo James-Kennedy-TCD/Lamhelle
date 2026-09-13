@@ -105,6 +105,10 @@ img {
   color: var(--red);
 }
 
+.mobile-only-link {
+  display: none;
+}
+
 .nav-toggle {
   display: none;
   background: none;
@@ -1001,6 +1005,14 @@ button.btn-link {
 
   .nav-toggle {
     display: inline-block;
+  }
+
+  .nav > .btn-pill {
+    display: none;
+  }
+
+  .mobile-only-link {
+    display: block;
   }
 
   #map {
