@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lamhelle &mdash; Business Profile</title>
+<title>Lamhelle &mdash; Favourites</title>
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -14,15 +14,31 @@
     <ul class="nav-links">
       <li><a href="index.html">Map</a></li>
       <li><a href="recommended.html">Recommended</a></li>
-      <li><a href="favourites.html">Favourites</a></li>
+      <li><a href="favourites.html" class="active">Favourites</a></li>
     </ul>
     <a class="btn-pill" href="mailto:hello@lamhelle.ie">List your business</a>
     <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
   </nav>
 </header>
 
-<main class="section profile-section" id="profileRoot">
-  <p class="empty-state">Loading business...</p>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Your favourites</h1>
+    <p>Businesses you've saved for later, kept on this device.</p>
+
+    <div class="chip-row" id="categoryChips">
+      <button class="chip active" data-category="All">All</button>
+    </div>
+  </div>
+</section>
+
+<main class="section">
+  <div class="section-heading">
+    <h2>Saved businesses</h2>
+    <p id="resultCount"></p>
+  </div>
+
+  <div class="card-grid" id="cardGrid"></div>
 </main>
 
 <footer class="site-footer">
@@ -31,6 +47,6 @@
 
 <script src="js/data.js"></script>
 <script src="js/common.js"></script>
-<script src="js/business.js"></script>
+<script src="js/favourites.js"></script>
 </body>
 </html>

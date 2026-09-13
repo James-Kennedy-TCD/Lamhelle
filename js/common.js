@@ -17,6 +17,33 @@ function categoryColor(category) {
   return CATEGORY_COLORS[category] || "#167a52";
 }
 
+const FAVOURITES_KEY = "lamhelle_favourites";
+
+function getFavourites() {
+  try {
+    return JSON.parse(localStorage.getItem(FAVOURITES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function isFavourited(id) {
+  return getFavourites().includes(id);
+}
+
+function toggleFavourite(id) {
+  const favs = new Set(getFavourites());
+  if (favs.has(id)) favs.delete(id);
+  else favs.add(id);
+  try {
+    localStorage.setItem(FAVOURITES_KEY, JSON.stringify([...favs]));
+  } catch {
+    // localStorage unavailable (private browsing, etc.) - favouriting is
+    // a nice-to-have, so fail silently.
+  }
+  return favs.has(id);
+}
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -142,7 +169,8 @@ function photoGalleryHtml(biz) {
   `;
 }
 
-function bizCardHtml(biz) {
+function bizCardHtml(biz, opts) {
+  opts = opts || {};
   return `
     <article class="biz-card" data-id="${biz.id}">
       <a class="biz-card-photo" href="business.html?id=${biz.id}">
@@ -163,6 +191,7 @@ function bizCardHtml(biz) {
           <a class="btn-link" href="business.html?id=${biz.id}">View profile</a>
           <a class="btn-link" href="index.html?focus=${biz.id}">Map</a>
           <a class="btn-link" href="${directionsUrl(biz)}" target="_blank" rel="noopener">Directions</a>
+          ${opts.showRemove ? `<button class="btn-link remove-fav-btn" data-id="${biz.id}">Remove</button>` : ""}
         </div>
       </div>
     </article>

@@ -2,29 +2,6 @@
 // based on the `id` query param, plus a few similar businesses.
 
 (function () {
-  const FAVOURITES_KEY = "lamhelle_favourites";
-
-  function getFavourites() {
-    try {
-      return JSON.parse(localStorage.getItem(FAVOURITES_KEY)) || [];
-    } catch {
-      return [];
-    }
-  }
-
-  function toggleFavourite(id) {
-    const favs = new Set(getFavourites());
-    if (favs.has(id)) favs.delete(id);
-    else favs.add(id);
-    try {
-      localStorage.setItem(FAVOURITES_KEY, JSON.stringify([...favs]));
-    } catch {
-      // localStorage unavailable (private browsing, etc.) - favouriting is
-      // a nice-to-have, so fail silently.
-    }
-    return favs.has(id);
-  }
-
   function notFoundHtml() {
     return `
       <div class="empty-state">
@@ -48,7 +25,7 @@
   }
 
   function profileHtml(biz) {
-    const favourited = getFavourites().includes(biz.id);
+    const favourited = isFavourited(biz.id);
     return `
       <a class="btn-link back-link" href="recommended.html">&larr; Back</a>
 

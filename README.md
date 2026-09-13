@@ -13,7 +13,9 @@ This is an early prototype focused on two views:
 - **Recommended** (`recommended.html`) — a curated, category-filterable
   grid of picks for the week.
 - **Business profile** (`business.html?id=...`) — photos, opening hours,
-  tags, and similar businesses for one listing.
+  tags, similar businesses, and a Save button.
+- **Favourites** (`favourites.html`) — businesses saved via the Save button,
+  stored in this browser's localStorage (per-device, not synced).
 
 ## Running locally
 
