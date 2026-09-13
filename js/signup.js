@@ -1,6 +1,6 @@
 // Business owner signup form: validates required fields, stores the
 // submission locally (there's no backend yet), and hands off to the
-// visitor's own email client to actually reach the Lamhelle team.
+// visitor's own email client to actually reach the Lámhelle team.
 
 (function () {
   const SIGNUPS_KEY = "lamhelle_signups";

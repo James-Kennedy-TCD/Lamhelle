@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lamhelle &mdash; Search</title>
+<title>Lámhelle &mdash; Search</title>
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
 <header class="site-header">
   <nav class="nav">
-    <a class="brand" href="index.html">Lamhelle<span class="brand-dot">.</span></a>
+    <a class="brand" href="index.html">Lámhelle<span class="brand-dot">.</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Map</a></li>
+      <li><a href="explore.html">Explore</a></li>
       <li><a href="recommended.html">Recommended</a></li>
       <li><a href="favourites.html">Favourites</a></li>
     </ul>
@@ -24,7 +25,7 @@
 <section class="hero">
   <div class="hero-inner">
     <h1 id="searchHeading">Search</h1>
-    <p>Search across every independent Irish business on Lamhelle by name, category, area or product.</p>
+    <p>Search across every independent Irish business on Lámhelle by name, category, area or product.</p>
 
     <div class="search-bar">
       <input id="searchInput" type="text" placeholder="Search for a shop, category or product..." />
@@ -33,6 +34,15 @@
 
     <div class="chip-row" id="categoryChips">
       <button class="chip active" data-category="All">All</button>
+    </div>
+
+    <div class="location-row">
+      <label for="areaSelect" class="location-label">Area</label>
+      <select id="areaSelect">
+        <option value="All">All areas</option>
+      </select>
+      <button class="btn-pill outline" id="nearMeBtn" type="button">&#128205; Near me</button>
+      <span id="locationStatus" class="location-status"></span>
     </div>
   </div>
 </section>
@@ -47,7 +57,7 @@
 </main>
 
 <footer class="site-footer">
-  <p><strong>Lamhelle</strong> &mdash; making it the easiest choice to shop Irish and shop local.</p>
+  <p><strong>Lámhelle</strong> &mdash; making it the easiest choice to shop Irish and shop local.</p>
 </footer>
 
 <script src="js/data.js"></script>

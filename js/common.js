@@ -153,10 +153,13 @@ function priceLabel(level) {
   return "€".repeat(level || 1);
 }
 
-// Matches a business against a free-text query and an optional category filter.
-function matchesBusiness(biz, query, category) {
+// Matches a business against a free-text query, an optional category filter,
+// and an optional exact-area filter (e.g. "Ranelagh").
+function matchesBusiness(biz, query, category, area) {
   const inCategory = !category || category === "All" || biz.category === category;
   if (!inCategory) return false;
+
+  if (area && area !== "All" && biz.area !== area) return false;
 
   if (!query) return true;
   const haystack = [biz.name, biz.category, biz.area, biz.blurb, ...(biz.tags || [])]
@@ -167,6 +170,25 @@ function matchesBusiness(biz, query, category) {
 
 function directionsUrl(biz) {
   return `https://www.openstreetmap.org/?mlat=${biz.lat}&mlon=${biz.lng}#map=17/${biz.lat}/${biz.lng}`;
+}
+
+function allAreas() {
+  return [...new Set(BUSINESSES.map((b) => b.area))].sort();
+}
+
+// Haversine distance in km between two lat/lng points.
+function distanceKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function formatDistance(km) {
+  return km < 1 ? `${Math.round(km * 1000)}m away` : `${km.toFixed(1)}km away`;
 }
 
 const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -279,7 +301,9 @@ function bizCardHtml(biz, opts) {
           <h3><a href="business.html?id=${biz.id}">${escapeHtml(biz.name)}</a></h3>
           <span class="badge">${priceLabel(biz.priceLevel)}</span>
         </div>
-        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)} &middot; ${cardRatingHtml(biz)}</p>
+        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)} &middot; ${cardRatingHtml(biz)}${
+          typeof opts.distanceKm === "number" ? ` &middot; <span class="distance-inline">${formatDistance(opts.distanceKm)}</span>` : ""
+        }</p>
         <p class="biz-blurb">${escapeHtml(biz.blurb)}</p>
         <div class="biz-tags">
           ${(biz.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
@@ -312,6 +336,67 @@ function rankRecommended(businesses) {
     if (a.featured !== b.featured) return a.featured ? -1 : 1;
     return pseudoRandom(a.id) - pseudoRandom(b.id);
   });
+}
+
+// "Heat" score for the What's Hot / vibe map features: mostly driven by
+// rating and review count, plus a small deterministic per-business "buzz"
+// so the ranking isn't just a flat tie between businesses with identical
+// seed-review counts.
+function heatScore(biz) {
+  const { avg, count } = averageRating(biz);
+  let seed = 0;
+  for (const ch of biz.id) seed = (seed * 31 + ch.charCodeAt(0)) % 100000;
+  const buzz = (seed % 50) / 10;
+  return Math.round((avg * 10 + count * 2 + buzz) * 10) / 10;
+}
+
+function rankWhatsHot(businesses, limit) {
+  const ranked = [...businesses].sort((a, b) => heatScore(b) - heatScore(a));
+  return typeof limit === "number" ? ranked.slice(0, limit) : ranked;
+}
+
+function heatTier(rank) {
+  if (rank <= 3) return 1;
+  if (rank <= 8) return 2;
+  return 3;
+}
+
+function flameBadge(rank) {
+  const tier = heatTier(rank);
+  return "&#128293;".repeat(tier === 1 ? 3 : tier === 2 ? 2 : 1);
+}
+
+// Nudges overlapping/identical coordinates apart slightly (deterministically,
+// so it's stable across renders) so pins on the vibe map don't stack exactly.
+function jitteredCoord(biz) {
+  let seed = 0;
+  for (const ch of biz.id) seed = (seed * 37 + ch.charCodeAt(0)) % 100000;
+  const jitterLat = (((seed % 17) - 8) * 0.0006);
+  const jitterLng = ((Math.floor(seed / 17) % 17) - 8) * 0.0006;
+  return [biz.lat + jitterLat, biz.lng + jitterLng];
+}
+
+function hotCardHtml(biz, rank) {
+  return `
+    <article class="hot-card" data-id="${biz.id}">
+      <a class="biz-card-photo" href="business.html?id=${biz.id}">
+        ${photoTileHtml(biz, "card", 0, 500)}
+        <span class="hot-rank tier-${heatTier(rank)}">#${rank}</span>
+      </a>
+      <div class="biz-card-body">
+        <div class="biz-top">
+          <h3><a href="business.html?id=${biz.id}">${escapeHtml(biz.name)}</a></h3>
+          <span class="hot-flames">${flameBadge(rank)}</span>
+        </div>
+        <p class="biz-meta">${escapeHtml(biz.category)} &middot; ${escapeHtml(biz.area)} &middot; ${cardRatingHtml(biz)}</p>
+        <p class="biz-blurb">${escapeHtml(biz.blurb)}</p>
+        <div class="biz-actions">
+          <a class="btn-link" href="business.html?id=${biz.id}">View profile</a>
+          <a class="btn-link" href="explore.html?focus=${biz.id}">Vibe map</a>
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 function setupNavToggle() {

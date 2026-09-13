@@ -1,4 +1,4 @@
-// Sample data for the Lamhelle prototype.
+// Sample data for the Lámhelle prototype.
 // These are fictional placeholder businesses used to demo the map and
 // recommendation views for South Dublin. Swap this array for a real feed
 // (API or CMS) before launch.

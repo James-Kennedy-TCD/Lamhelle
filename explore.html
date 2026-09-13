@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lámhelle &mdash; Explore</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">Lámhelle<span class="brand-dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Map</a></li>
+      <li><a href="explore.html" class="active">Explore</a></li>
+      <li><a href="recommended.html">Recommended</a></li>
+      <li><a href="favourites.html">Favourites</a></li>
+    </ul>
+    <a class="btn-pill" href="signup.html">List your business</a>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+</header>
+
+<section class="hero hero-dark">
+  <div class="hero-inner">
+    <h1>See what's hot right now</h1>
+    <p>A live look at South Dublin's busiest independent spots &mdash; brighter glow means more buzz.</p>
+  </div>
+</section>
+
+<main class="section explore-section">
+  <div id="vibeMap"></div>
+  <p class="vibe-hint">Tap a pin to see the shop. Glow size &amp; brightness = how hot it's trending.</p>
+
+  <div class="section-heading" style="margin-top:2.5rem;">
+    <h2>&#128293; What's Hot</h2>
+    <p id="hotCount"></p>
+  </div>
+  <div class="card-grid" id="hotGrid"></div>
+</main>
+
+<footer class="site-footer">
+  <p><strong>Lámhelle</strong> &mdash; making it the easiest choice to shop Irish and shop local.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/explore.js"></script>
+</body>
+</html>

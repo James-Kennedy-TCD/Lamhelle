@@ -1,6 +1,6 @@
-# Lamhelle (name under review)
+# Lámhelle (name under review)
 
-**Live demo:** https://james-kennedy-tcd.github.io/Lamhelle/
+**Live demo:** https://james-kennedy-tcd.github.io/Lámhelle/
 
 A discovery platform that makes it as easy to find and support independent
 Irish businesses as it is to shop from major online retailers.
@@ -21,7 +21,7 @@ This is an early prototype focused on two views:
 - **List your business** (`signup.html`) — a business owner signup form
   (free profile, matching the pitch's freemium model). There's no backend
   yet, so submitting saves the entry locally and hands off to the visitor's
-  own email client (pre-filled) to actually reach the Lamhelle team.
+  own email client (pre-filled) to actually reach the Lámhelle team.
 
 ## Running locally
 
