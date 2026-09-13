@@ -16,6 +16,10 @@ This is an early prototype focused on two views:
   tags, similar businesses, and a Save button.
 - **Favourites** (`favourites.html`) — businesses saved via the Save button,
   stored in this browser's localStorage (per-device, not synced).
+- **List your business** (`signup.html`) — a business owner signup form
+  (free profile, matching the pitch's freemium model). There's no backend
+  yet, so submitting saves the entry locally and hands off to the visitor's
+  own email client (pre-filled) to actually reach the Lamhelle team.
 
 ## Running locally
 
@@ -48,5 +52,6 @@ Replace these with each owner's real photos before launch.
 - Broaden coverage beyond South Dublin
 - Let business owners upload their own real photos
 - Customer reviews and personalised recommendations
-- Business-side dashboard (freemium: free profile, paid promotion/insights)
+- A real backend for signups, and a business-side dashboard (freemium:
+  free profile, paid promotion/insights)
 - Loyalty rewards, click-and-collect, live stock availability

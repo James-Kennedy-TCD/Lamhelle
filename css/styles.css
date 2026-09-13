@@ -605,6 +605,83 @@ button.btn-link {
   color: var(--black);
 }
 
+/* ---------- Signup form ---------- */
+
+.signup-section {
+  max-width: 640px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.form-row-group {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.form-row-group .form-row {
+  min-width: 0;
+}
+
+.form-row label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--black);
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  outline: 2px solid var(--red);
+  outline-offset: 1px;
+}
+
+.form-row textarea {
+  resize: vertical;
+}
+
+.form-error {
+  color: var(--red-dark);
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin: -0.5rem 0 1rem;
+}
+
+.success-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+.success-panel h2 {
+  margin: 0 0 0.5rem;
+}
+
+.success-panel p {
+  color: var(--gray-600);
+}
+
+.success-panel .btn-pill {
+  margin-top: 0.5rem;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -660,5 +737,10 @@ button.btn-link {
 
   .profile-header {
     flex-direction: column;
+  }
+
+  .form-row-group {
+    flex-direction: column;
+    gap: 0;
   }
 }

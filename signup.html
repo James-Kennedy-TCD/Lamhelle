@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lamhelle &mdash; List Your Business</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">Lamhelle<span class="brand-dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Map</a></li>
+      <li><a href="recommended.html">Recommended</a></li>
+      <li><a href="favourites.html">Favourites</a></li>
+    </ul>
+    <a class="btn-pill" href="signup.html">List your business</a>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>List your business on Lamhelle</h1>
+    <p>Get a free business profile and be discovered by shoppers looking to support independent Irish businesses. It takes two minutes.</p>
+
+    <div class="stat-row">
+      <div class="stat-card"><span class="stat-value">Free</span><span class="stat-label">Business profile</span></div>
+      <div class="stat-card"><span class="stat-value">&euro;0</span><span class="stat-label">To get listed</span></div>
+      <div class="stat-card"><span class="stat-value">&#8598;</span><span class="stat-label">Upgrade anytime for extra visibility</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="section signup-section">
+
+  <form id="signupForm" novalidate>
+    <div class="form-row">
+      <label for="businessName">Business name *</label>
+      <input id="businessName" name="businessName" type="text" required placeholder="e.g. The Ranelagh Roastery" />
+    </div>
+
+    <div class="form-row-group">
+      <div class="form-row">
+        <label for="category">Category *</label>
+        <select id="category" name="category" required>
+          <option value="" disabled selected>Choose a category</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="area">Area / neighbourhood *</label>
+        <input id="area" name="area" type="text" required list="areaOptions" placeholder="e.g. Ranelagh" />
+        <datalist id="areaOptions"></datalist>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="address">Shop address *</label>
+      <input id="address" name="address" type="text" required placeholder="Street, area, Dublin postcode" />
+    </div>
+
+    <div class="form-row">
+      <label for="description">Tell customers what makes your business special *</label>
+      <textarea id="description" name="description" required rows="4" maxlength="220" placeholder="e.g. Small-batch coffee roasted on site, with a daily-changing bake selection."></textarea>
+    </div>
+
+    <div class="form-row-group">
+      <div class="form-row">
+        <label for="contactName">Your name *</label>
+        <input id="contactName" name="contactName" type="text" required placeholder="e.g. Aoife Byrne" />
+      </div>
+      <div class="form-row">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" required placeholder="you@business.ie" />
+      </div>
+    </div>
+
+    <div class="form-row-group">
+      <div class="form-row">
+        <label for="phone">Phone (optional)</label>
+        <input id="phone" name="phone" type="tel" placeholder="01 234 5678" />
+      </div>
+      <div class="form-row">
+        <label for="website">Website or Instagram (optional)</label>
+        <input id="website" name="website" type="text" placeholder="@yourbusiness" />
+      </div>
+    </div>
+
+    <p class="form-error" id="formError" hidden>Please fill in all required fields marked with *.</p>
+
+    <button class="btn-pill" type="submit">Submit application</button>
+  </form>
+
+  <div class="success-panel" id="successPanel" hidden>
+    <h2>Thanks, <span id="successName"></span>!</h2>
+    <p>We've saved your application on this device. To make sure our team sees it, send it to us by email &mdash; we've pre-filled everything for you.</p>
+    <a class="btn-pill" id="emailLink" href="#">Email us your application</a>
+    <p><button class="btn-link" id="startOverBtn" type="button">Submit another business</button></p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p><strong>Lamhelle</strong> &mdash; making it the easiest choice to shop Irish and shop local.</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/signup.js"></script>
+</body>
+</html>
