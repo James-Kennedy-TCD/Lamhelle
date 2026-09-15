@@ -891,6 +891,98 @@ button.btn-link {
   margin: 0 0 1rem;
 }
 
+.owner-reply-link {
+  display: inline-block;
+  margin: -1rem 0 1.5rem;
+  font-size: 0.85rem;
+}
+
+.review-reply {
+  margin-top: 0.7rem;
+  padding: 0.65rem 0.9rem;
+  background: var(--gray-100);
+  border-left: 3px solid var(--red);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.review-reply .reply-label {
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.review-reply p {
+  margin: 0.3rem 0 0;
+  font-size: 0.88rem;
+}
+
+/* ---------- Owner reviews page ---------- */
+
+.owner-picker-row {
+  max-width: 420px;
+}
+
+.owner-picker-row select {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--black);
+}
+
+.owner-section {
+  max-width: 640px;
+}
+
+.owner-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.owner-review-row {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+}
+
+.owner-review-row .review-card {
+  border: none;
+  padding: 0;
+}
+
+.owner-reply-form {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.owner-reply-form label {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.owner-reply-form textarea {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.owner-reply-form .btn-pill {
+  align-self: flex-start;
+}
+
 /* ---------- Signup form ---------- */
 
 .signup-section {
@@ -981,6 +1073,15 @@ button.btn-link {
 
 .site-footer strong {
   color: var(--red);
+}
+
+.footer-owner-link {
+  margin-top: 0.4rem;
+}
+
+.footer-owner-link a {
+  color: var(--gray-600);
+  text-decoration: underline;
 }
 
 /* ---------- Responsive ---------- */

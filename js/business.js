@@ -15,7 +15,8 @@
     const reviews = allReviews(biz);
     return `
       ${ratingSummaryHtml(biz)}
-      ${reviews.length ? `<div class="review-list">${reviews.map(reviewCardHtml).join("")}</div>` : ""}
+      ${reviews.length ? `<div class="review-list">${reviews.map((r) => reviewCardHtml(r, biz.id)).join("")}</div>` : ""}
+      <a class="btn-link owner-reply-link" href="owner-reviews.html?business=${biz.id}">Are you the owner? Reply to reviews</a>
 
       <div class="review-form-wrap">
         <h3>Write a review</h3>
@@ -62,7 +63,8 @@
         return;
       }
 
-      addReview(biz.id, { name, rating, text, date: "Just now" });
+      const id = `r${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+      addReview(biz.id, { id, name, rating, text, date: "Just now" });
       renderReviewsSection(biz);
     });
   }

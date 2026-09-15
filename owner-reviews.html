@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Favourites | Lámhelle</title>
+<title>Manage Reviews | Lámhelle</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
@@ -20,7 +20,7 @@
       <li><a href="index.html">Map</a></li>
       <li><a href="explore.html">Explore</a></li>
       <li><a href="recommended.html">Recommended</a></li>
-      <li><a href="favourites.html" class="active">Favourites</a></li>
+      <li><a href="favourites.html">Favourites</a></li>
       <li class="mobile-only-link"><a href="signup.html">List your business</a></li>
     </ul>
     <a class="btn-pill" href="signup.html">List your business</a>
@@ -30,31 +30,28 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <h1>Your favourites</h1>
-    <p>Businesses you've saved for later, kept on this device.</p>
+    <h1>Manage your reviews</h1>
+    <p>For business owners: pick your listing to read what customers are saying and reply in public.</p>
 
-    <div class="chip-row" id="categoryChips">
-      <button class="chip active" data-category="All">All</button>
+    <div class="form-row owner-picker-row">
+      <label for="ownerBusinessSelect">Your business</label>
+      <select id="ownerBusinessSelect">
+        <option value="" disabled selected>Choose your business</option>
+      </select>
     </div>
   </div>
 </section>
 
-<main class="section">
-  <div class="section-heading">
-    <h2>Saved businesses</h2>
-    <p id="resultCount"></p>
-  </div>
-
-  <div class="card-grid" id="cardGrid"></div>
+<main class="section owner-section" id="ownerRoot">
+  <div class="empty-state">Choose your business above to see its reviews.</div>
 </main>
 
 <footer class="site-footer">
   <p><strong>Lámhelle.</strong> Making it the easiest choice to shop Irish and shop local.</p>
-  <p class="footer-owner-link"><a href="owner-reviews.html">Own a business here? Manage your reviews</a></p>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/common.js"></script>
-<script src="js/favourites.js"></script>
+<script src="js/owner.js"></script>
 </body>
 </html>

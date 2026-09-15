@@ -72,6 +72,8 @@ function addReview(bizId, review) {
 
 // Deterministically picks 2 category-appropriate sample reviews per business
 // (same technique as businessPhotoIds) so profiles don't start out empty.
+// Each gets a stable "seed-N" id so an owner reply can attach to it even
+// though these reviews are recomputed on every render, not stored.
 function seedReviewsFor(biz) {
   const templates = REVIEW_TEMPLATES[biz.category] || [];
   if (!templates.length) return [];
@@ -83,6 +85,7 @@ function seedReviewsFor(biz) {
   const second = (first + 1) % templates.length;
 
   return [first, second].map((templateIdx, i) => ({
+    id: `seed-${i}`,
     name: REVIEWER_NAMES[(seed + i * 5) % REVIEWER_NAMES.length],
     rating: templates[templateIdx].rating,
     text: templates[templateIdx].text,
@@ -92,6 +95,32 @@ function seedReviewsFor(biz) {
 
 function allReviews(biz) {
   return [...getStoredReviews(biz.id), ...seedReviewsFor(biz)];
+}
+
+const REVIEW_REPLIES_KEY = "lamhelle_review_replies";
+
+function getReply(bizId, reviewId) {
+  try {
+    const all = JSON.parse(localStorage.getItem(REVIEW_REPLIES_KEY)) || {};
+    return (all[bizId] || {})[reviewId] || null;
+  } catch {
+    return null;
+  }
+}
+
+function setReply(bizId, reviewId, text) {
+  let all = {};
+  try {
+    all = JSON.parse(localStorage.getItem(REVIEW_REPLIES_KEY)) || {};
+  } catch {
+    all = {};
+  }
+  all[bizId] = { ...(all[bizId] || {}), [reviewId]: { text, date: "Just now" } };
+  try {
+    localStorage.setItem(REVIEW_REPLIES_KEY, JSON.stringify(all));
+  } catch {
+    // localStorage unavailable - the reply just won't persist across visits.
+  }
 }
 
 function averageRating(biz) {
@@ -128,7 +157,8 @@ function cardRatingHtml(biz) {
   return `<span class="rating-inline">&#9733; ${avg}</span> (${count})`;
 }
 
-function reviewCardHtml(review) {
+function reviewCardHtml(review, bizId) {
+  const reply = bizId ? getReply(bizId, review.id) : null;
   return `
     <div class="review-card">
       <div class="review-top">
@@ -137,6 +167,14 @@ function reviewCardHtml(review) {
       </div>
       ${starsHtml(review.rating)}
       <p>${escapeHtml(review.text)}</p>
+      ${
+        reply
+          ? `<div class="review-reply">
+               <span class="reply-label">Reply from the owner</span>
+               <p>${escapeHtml(reply.text)}</p>
+             </div>`
+          : ""
+      }
     </div>
   `;
 }
