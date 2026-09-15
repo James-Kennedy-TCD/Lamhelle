@@ -1,7 +1,9 @@
 // Owner reviews page: lets a business owner pick their listing (there's no
 // real accounts/auth in this prototype) and reply publicly to its reviews.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   function populateBusinessSelect() {
     const select = document.getElementById("ownerBusinessSelect");
     [...BUSINESSES]

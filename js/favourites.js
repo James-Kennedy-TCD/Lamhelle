@@ -1,7 +1,9 @@
 // Favourites page: shows businesses saved via the heart/Save button on a
 // business profile, stored client-side in localStorage.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   let activeCategory = "All";
 
   function savedBusinesses() {

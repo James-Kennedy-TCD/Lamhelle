@@ -1,8 +1,11 @@
-// Business owner signup form: validates required fields, stores the
-// submission locally (there's no backend yet), and hands off to the
-// visitor's own email client to actually reach the Lámhelle team.
+// Business owner signup form: validates required fields, saves the
+// submission locally, tries to persist it server-side if a backend is
+// reachable, and hands off to the visitor's own email client so the
+// application reaches the Lámhelle team either way.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   const SIGNUPS_KEY = "lamhelle_signups";
   const CONTACT_EMAIL = "hello@lamhelle.ie";
 
@@ -39,6 +42,16 @@
     } catch {
       // localStorage unavailable - the mailto handoff still works.
     }
+
+    // Fire-and-forget: if a backend happens to be running, persist it
+    // there too. The localStorage record and mailto link above remain the
+    // guaranteed fallback either way, since there's no admin login yet to
+    // actually browse what lands in the database.
+    fetch("/api/signups", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => {});
   }
 
   function buildMailtoUrl(data) {

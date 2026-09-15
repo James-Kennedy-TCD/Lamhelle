@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8123", "--directory", "C:/Users/jpk03/Lamhelle"],
       "port": 8123
+    },
+    {
+      "name": "lamhelle-backend",
+      "runtimeExecutable": "C:/Users/jpk03/Lamhelle/backend/.venv/Scripts/python.exe",
+      "runtimeArgs": ["C:/Users/jpk03/Lamhelle/backend/run_server.py"],
+      "port": 8100
     }
   ]
 }

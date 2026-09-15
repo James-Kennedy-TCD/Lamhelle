@@ -1,5 +1,35 @@
 // Shared helpers used by both the map page and the recommended page.
 
+// If a backend is running (see ../backend/), it becomes the source of truth
+// for businesses and reviews/replies; when it's not reachable (e.g. the
+// static GitHub Pages deploy, which can't run a Python process), everything
+// transparently falls back to the bundled sample data + localStorage below.
+// This keeps the static demo working exactly as before with zero regression.
+let API_AVAILABLE = false;
+let REMOTE_REVIEWS = null; // { [businessId]: [{id, name, rating, text, date, reply}, ...] }
+
+async function hydrateFromApi() {
+  try {
+    const [bizRes, reviewsRes] = await Promise.all([
+      fetch("/api/businesses", { signal: AbortSignal.timeout(2000) }),
+      fetch("/api/reviews", { signal: AbortSignal.timeout(2000) }),
+    ]);
+    if (!bizRes.ok || !reviewsRes.ok) throw new Error("bad response");
+
+    const remoteBusinesses = await bizRes.json();
+    if (!Array.isArray(remoteBusinesses) || !remoteBusinesses.length) throw new Error("empty");
+
+    BUSINESSES.length = 0;
+    BUSINESSES.push(...remoteBusinesses);
+    REMOTE_REVIEWS = await reviewsRes.json();
+    API_AVAILABLE = true;
+  } catch {
+    // No backend reachable - keep the bundled sample data (data.js) and
+    // localStorage-backed reviews/replies exactly as they already work.
+    API_AVAILABLE = false;
+  }
+}
+
 const CATEGORY_COLORS = {
   "Cafe": "#8a5a2b",
   "Boutique Clothing": "#a3327a",
@@ -56,6 +86,29 @@ function getStoredReviews(bizId) {
 }
 
 function addReview(bizId, review) {
+  if (API_AVAILABLE && REMOTE_REVIEWS) {
+    // Optimistic update so the caller's immediate re-render shows it, then
+    // persist server-side in the background and swap in the real id once
+    // it comes back (needed so a later owner reply attaches correctly).
+    REMOTE_REVIEWS[bizId] = [review, ...(REMOTE_REVIEWS[bizId] || [])];
+    fetch(`/api/businesses/${bizId}/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: review.name, rating: review.rating, text: review.text }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((saved) => {
+        if (!saved || !REMOTE_REVIEWS[bizId]) return;
+        const idx = REMOTE_REVIEWS[bizId].indexOf(review);
+        if (idx !== -1) REMOTE_REVIEWS[bizId][idx] = saved;
+      })
+      .catch(() => {
+        // Backend went away mid-request - the optimistic entry stays for
+        // this session, it just won't survive a reload.
+      });
+    return;
+  }
+
   let all = {};
   try {
     all = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
@@ -94,12 +147,17 @@ function seedReviewsFor(biz) {
 }
 
 function allReviews(biz) {
+  if (API_AVAILABLE && REMOTE_REVIEWS) return REMOTE_REVIEWS[biz.id] || [];
   return [...getStoredReviews(biz.id), ...seedReviewsFor(biz)];
 }
 
 const REVIEW_REPLIES_KEY = "lamhelle_review_replies";
 
 function getReply(bizId, reviewId) {
+  if (API_AVAILABLE && REMOTE_REVIEWS) {
+    const review = (REMOTE_REVIEWS[bizId] || []).find((r) => r.id === reviewId);
+    return review?.reply || null;
+  }
   try {
     const all = JSON.parse(localStorage.getItem(REVIEW_REPLIES_KEY)) || {};
     return (all[bizId] || {})[reviewId] || null;
@@ -109,6 +167,20 @@ function getReply(bizId, reviewId) {
 }
 
 function setReply(bizId, reviewId, text) {
+  if (API_AVAILABLE && REMOTE_REVIEWS) {
+    const review = (REMOTE_REVIEWS[bizId] || []).find((r) => r.id === reviewId);
+    if (review) review.reply = { text, date: "Just now" };
+    fetch(`/api/reviews/${reviewId}/reply`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    }).catch(() => {
+      // Backend went away mid-request - the optimistic update stays for
+      // this session, it just won't survive a reload.
+    });
+    return;
+  }
+
   let all = {};
   try {
     all = JSON.parse(localStorage.getItem(REVIEW_REPLIES_KEY)) || {};
@@ -279,7 +351,7 @@ function hoursTableHtml(biz) {
 // Rotates each business's category photo pool so businesses sharing a
 // category don't all show the exact same triplet of photos.
 function businessPhotoIds(biz) {
-  const pool = PHOTO_LIBRARY[biz.category] || [];
+  const pool = (biz.photoIds && biz.photoIds.length) ? biz.photoIds : (PHOTO_LIBRARY[biz.category] || []);
   if (!pool.length) return [];
   let seed = 0;
   for (const ch of biz.id) seed += ch.charCodeAt(0);

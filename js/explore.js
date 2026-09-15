@@ -4,7 +4,9 @@
 // What's Hot ranked list below, same as Snap Map pairs its map with
 // trending Snaps.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   const SOUTH_DUBLIN_CENTER = [53.307, -6.225];
 
   const map = L.map("vibeMap", { zoomControl: true }).setView(SOUTH_DUBLIN_CENTER, 13);

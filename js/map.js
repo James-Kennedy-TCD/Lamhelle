@@ -1,7 +1,9 @@
 // Map page: renders all businesses on a Leaflet map with search + category
 // filtering, and supports deep-linking to a single business via ?focus=id.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   const SOUTH_DUBLIN_CENTER = [53.307, -6.225];
 
   const map = L.map("map").setView(SOUTH_DUBLIN_CENTER, 13);

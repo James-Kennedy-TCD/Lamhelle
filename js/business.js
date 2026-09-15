@@ -1,7 +1,9 @@
 // Business profile page: renders one business's photos, hours and details
 // based on the `id` query param, plus a few similar businesses.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   function notFoundHtml() {
     return `
       <div class="empty-state">
@@ -66,6 +68,7 @@
       const id = `r${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
       addReview(biz.id, { id, name, rating, text, date: "Just now" });
       renderReviewsSection(biz);
+      document.getElementById("topRatingSummary").innerHTML = ratingSummaryHtml(biz);
     });
   }
 
@@ -102,7 +105,7 @@
         <button class="btn-pill outline" id="favBtn">${favourited ? "&#9829; Saved" : "&#9825; Save"}</button>
       </div>
 
-      ${ratingSummaryHtml(biz)}
+      <div id="topRatingSummary">${ratingSummaryHtml(biz)}</div>
 
       <p class="biz-blurb profile-about">${escapeHtml(biz.blurb)}</p>
 

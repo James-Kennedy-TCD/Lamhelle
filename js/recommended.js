@@ -1,6 +1,8 @@
 // Recommended page: shows a ranked, filterable grid of businesses.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   let activeCategory = "All";
 
   const ranked = rankRecommended(BUSINESSES);

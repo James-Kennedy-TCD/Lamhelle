@@ -2,7 +2,9 @@
 // the visitor refine all three (plus an optional "near me" geolocation
 // sort), and keeps the URL in sync so results are shareable.
 
-(function () {
+(async function () {
+  await hydrateFromApi();
+
   let activeQuery = "";
   let activeCategory = "All";
   let activeArea = "All";
